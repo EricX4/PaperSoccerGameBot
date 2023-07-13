@@ -116,7 +116,7 @@ public class Board{
   //returns a number between -1 and 1, where -1 represents a optimal position for player 1, and 1 represents a optimal position for player 2
   //temp - only scores based on y-coord of ball position
   public double scoreBoard(){
-    bestMove = bestMove()
+    bestMove = bestMove() //bestMove needs to be defined first <-- FIX
     return (((13-(double)currentBallPosition[1])/13*2)-1)
   }
 
@@ -126,7 +126,7 @@ public class Board{
   }
 
   public void flipBoard(){
-    pass;
+    pass; //FIX
   }
 
   public void lookahead() {
