@@ -1,31 +1,41 @@
-public class Board{
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Board {
 
   //Fields:-----
-  private int[][][] board = new int[13][9][8]; //define dimensions (x, y, z)
+  private Point[][] board = new Point[37][25]; //define dimensions (x, y)
   private int numOfMoves;
-  private int[] currentBallPosition; //x-coordinate is first element, y-coordinate is second element
-  private int turn;
+  private int[] ballPosition = new int[2]; //x-coordinate is first element, y-coordinate is second element
+  private int turn; //Which player's turn it is
 
-  //Constructs Board Object as a 3D array: (x coordinate, y coordinate, moves on compass rose)
-  public Board(int[][][] board, int[] startingBallPosition) {
-    this.board = board;
-    this.currentBallPosition = startingBallPosition;
+  //Constructs Board Object as a 2D array: (x coordinate, y coordinate, moves on compass rose)
+  public Board(Point[][] board, int[] startingBallPosition) {
+     this.board = board;
+    for (int i = 0; i < 37; i++) {
+        for (int j = 0; j < 25; j++) {
+           this.board[i][j] = new Point(i, j);
+        }
+      }
+    this.ballPosition = startingBallPosition;
   } 
 
   //Getters and Setters:-----
   
   /**
-  *  Returns current board position
-  **/
-  public int[][][] getBoard() 
+   * Returns current board position
+   * @return
+   */
+  public Point[][] getBoard() 
   {
     return this.board;
   }
 
   /**
-  *  Sets new board position data based on 3D array given
-  **/
-  public void setBoard(int[][][] board) {
+   * Sets new board position data based on 3D array given
+   * @param board
+   */
+  public void setBoard(Point[][] board) {
     this.board = board;
   }
 
@@ -43,41 +53,46 @@ public class Board{
   //Methods:-----
 
   /**
-  *  Moves the currentBallPosition one spot to the left horizontally
-  **/
+   * Moves the currentBallPosition one spot to the left horizontally
+   */
   public void horizLeftMove() {
-    this.currentBallPosition[0] = this.currentBallPosition[0]+1;
+    this.ballPosition[0] -= 1;
   }
 
   /**
-  *  Moves the currentBallPosition one spot to the left horizontally and one spot up simultaneously in one move
-  **/
+   * Moves the currentBallPosition one spot to the left horizontally and one spot up simultaneously in one move
+   */
   public void topLeftMove() {
-    this.currentBallPosition[0] = this.currentBallPosition[0]+1;
+	this.ballPosition[0] -= 1;
+    this.ballPosition[1] += 1;
   }
 
   public void upMove() {
-    
+	this.ballPosition[1] += 1;
   }
 
   public void topRightMove() {
-    
+	this.ballPosition[0] += 1;
+    this.ballPosition[1] += 1;
   }
 
   public void horizRightMove() {
-    
+	this.ballPosition[0] += 1;
   }
 
   public void bottomMove() {
-    
+	this.ballPosition[1] -= 1;
+ 
   }
 
   public void bottomRightMove() {
-    
+	this.ballPosition[0] += 1;
+    this.ballPosition[1] -= 1;
   }
 
   public void bottomLeftMove() {
-    
+	this.ballPosition[0] -= 1;
+    this.ballPosition[1] -= 1;
   }
 
   // Returns true if bounce available, returns false otherwise
@@ -86,14 +101,35 @@ public class Board{
     
   }
   // Prints the board to the terminal in the form of dots and dashes
-  public void printBoard(){
-    
-    for(int i = 0; i < 13; i++){
-      for(int j = 0; j < 9; j++){
-        for(int k = 0; k < 8; k++){
-          
-        }
+  public void printBoard() {
+    for (int i=0; i<37; i++){
+      for (int j=0; j<25; j++){
+          System.out.print(board[i][j]);
       }
+      System.out.println();
+    }
+  }
+
+  public void addConnection(int connection, int x, int y){
+    if (connection==4){
+      this.board[x+1][y].changeDisplay("|");
+      this.board[x+2][y].changeDisplay("|");
+    }
+    else if (connection==1){
+      this.board[x-1][y+1].changeDisplay("/");
+      this.board[x-2][y+2].changeDisplay("/");
+    }
+    else if (connection==3){
+      this.board[x+1][y+1].changeDisplay("\\");
+      this.board[x+2][y+2].changeDisplay("\\");
+    }
+    else if (connection==2){
+      this.board[x][y+1].changeDisplay("_");
+      this.board[x][y+2].changeDisplay("_");
+    }
+    else if (connection==0){
+      this.board[x-1][y].changeDisplay("|");
+      this.board[x-2][y].changeDisplay("|");
     }
   }
 
@@ -103,34 +139,35 @@ public class Board{
   @return Returns 0 if the game not won yet, 1 if player 1 won, 2 if player 2 won
   */
 
+  //NEED TO CHANGE THIS
   public int checkWin(){
-    if (this.currentBallPosition[0] == 1 || this.currentBallPosition[0] == 13){
-      if (this.currentBallPosition[1] == 4 || this.currentBallPosition[1] == 5 || this.currentBallPosition[1] == 6){
+    if (this.ballPosition[0] == 1 || this.ballPosition[0] == 13){
+      if (this.ballPosition[1] == 4 || this.ballPosition[1] == 5 || this.ballPosition[1] == 6){
         return turn;
       }
     }
     return 0;
   } 
-} 
+
 
   //returns a number between -1 and 1, where -1 represents a optimal position for player 1, and 1 represents a optimal position for player 2
   //temp - only scores based on y-coord of ball position
   public double scoreBoard(){
-    bestMove = bestMove() //bestMove needs to be defined first <-- FIX
-    return (((13-(double)currentBallPosition[1])/13*2)-1)
+    ArrayList<Integer> bestMove = bestMove();
+    return (((13-(double)ballPosition[1])/13*2)-1);
   }
 
   public ArrayList<Integer> bestMove(){
-    moves = ArrayList<Integer>();
+    ArrayList<Integer> moves = new ArrayList<Integer>();
     return moves;
   }
 
   public void flipBoard(){
-    pass; //FIX
+    //TODO
   }
 
   public void lookahead() {
-     
+    //TODO
   }
 }
 
