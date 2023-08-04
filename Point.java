@@ -1,3 +1,4 @@
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -7,13 +8,13 @@ public class Point {
   private boolean isHover;
 
   //Fields:----
-  private boolean[] connections;
+  protected boolean[] connections;
   //determines whether or not the ball can bounce off the point
   private boolean canBounce;
   private boolean originalCanBounce;
-  
+    
   //shows how the displacements map to indices in the connections array
-  private static int[][] displacementToIndex = {{0, 1, 2},{3, -1, 4},{5, 6, 7}};
+  private static int[][] displacementToIndex = {{0, 1, 2}, {3, -1, 4},{5, 6, 7}};
 
   public Point() {
     canBounce = false;
@@ -57,6 +58,16 @@ public class Point {
   
   public double getHoverState() {
     return hoverState;
+  }
+  
+  public void flip() {
+	  for (int i = -1; i <= 1; i++) {
+		  int idx1 = displacementToIndex[i + 1][0];
+		  int idx2 = displacementToIndex[i + 1][2];
+		  boolean temp = connections[idx1];
+		  connections[idx1] = connections[idx2];
+		  connections[idx2] = temp;
+	  }
   }
 
   //Update the animation by a time step delta (in milliseconds)

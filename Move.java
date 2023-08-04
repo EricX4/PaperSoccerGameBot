@@ -14,6 +14,9 @@ class Move {
   private double recency;
 
   boolean isPlayerTurn;
+  
+  //shows how the displacements map to indices in the connections array
+  private static int[][] displacementToIndex = {{0, 1, 2}, {3, -1, 4},{5, 6, 7}};
 
   public Move(int x, int y, int px, int py, boolean isPlayerTurn, double delay) {
     this.x = x;
@@ -26,6 +29,17 @@ class Move {
 
     //initially recency is 1
     recency = 1;
+  }
+  
+  public void flip() {
+	y = 13 - y - 1;
+	py = 13 - py - 1;
+  }
+  
+  public int getType() {
+	  int dx = x - px;
+	  int dy = y - py;
+	  return displacementToIndex[dx + 1][dy + 1];
   }
 
   public int getX() {
@@ -47,6 +61,10 @@ class Move {
   }
   public double getDelay() {
     return delay;
+  }
+  
+  public void setDelay(double d) {
+	  delay = d;
   }
   
   public void decrementRecency(double amt) {

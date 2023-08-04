@@ -105,7 +105,7 @@ public class Main {
     private Font secularBody;
 
     public Canvas() {
-      Font secularFont;
+      /*Font secularFont;
       try {
         secularFont = Font.createFont(Font.TRUETYPE_FONT, new File("SecularOne-Regular.ttf"));
         secularHeader1 = secularFont.deriveFont(Font.PLAIN, GraphicsConfig.HEADER1);
@@ -113,7 +113,7 @@ public class Main {
       } catch (IOException | FontFormatException e) {
         e.printStackTrace();
         return;
-      }
+      }*/
     }
     
     @Override
@@ -129,20 +129,20 @@ public class Main {
 
       g2d.setColor(new Color(255, 255, 255));
       g2d.fillRect(0, 0, GraphicsConfig.WINDOW_WIDTH, GraphicsConfig.WINDOW_HEIGHT);
-
+      
+      //g2d.setFont(secularHeader1);
+      
       now = System.currentTimeMillis();
       if (then == -1) then = now;
       double delta = Math.min(now - then, GraphicsConfig.MAX_FRAME_LENGTH);
       then = now;
-      time += delta;
-      
-      g2d.setFont(secularHeader1);
       
       int centerX = GraphicsConfig.WINDOW_WIDTH/2;
       int centerY = GraphicsConfig.WINDOW_HEIGHT/2;
       g2d.translate(centerX, centerY);
       
       board.renderBoard(g2d, delta, mouseX, mouseY);
+      time += delta;
       
       g2d.translate(-centerX, -centerY);
     }

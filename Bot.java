@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Bot {
+public class Bot {	
 	public Bot() {
 		
 	}
